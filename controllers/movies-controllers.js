@@ -53,6 +53,7 @@ const addMovie = async (req, res, next) => {
   try {
     creator = await User.findById(req.userData.userId);
   } catch (err) {
+    console.log(err);
     const error = new Error('Adding movie failed, please try again', 500);
     return next(error);
   }

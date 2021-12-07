@@ -63,7 +63,7 @@ const signup = async (req, res, next) => {
   try {
     token = jwt.sign(
       { userId: createdUser.id, email: createdUser.email },
-      JWT_KEY,
+      process.env.JWT_KEY,
       { expiresIn: '1h' }
     );
   } catch (err) {
@@ -120,10 +120,11 @@ const login = async (req, res, next) => {
   try {
     token = jwt.sign(
       { userId: existingUser.id, email: existingUser.email },
-      JWT_KEY,
+      process.env.JWT_KEY,
       { expiresIn: '1h' }
     );
   } catch (err) {
+    console.log(err);
     const error = new HttpError('Logging in failed, please try again', 500);
     return next(error);
   }

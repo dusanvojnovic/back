@@ -14,11 +14,11 @@ app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
   next();
 });
 
@@ -36,6 +36,10 @@ app.use((error, req, res, next) => {
   }
   res.status(error.code || 500);
   res.json({ message: error.message || 'An unknown error occurred!' });
+});
+
+app.options('*', (req, res) => {
+  res.json({ status: 'OK' });
 });
 
 mongoose
