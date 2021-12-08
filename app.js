@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors')
 
 const moviesRoutes = require('./routes/movies-routes');
 const usersRoutes = require('./routes/users-routes');
@@ -12,16 +13,7 @@ const app = express();
 // app.use(bodyParser.json());
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  next();
-});
-
+app.use(cors())
 app.use('/api/movies', moviesRoutes);
 app.use('/api/users', usersRoutes);
 
@@ -43,9 +35,9 @@ app.options('*', (req, res) => {
 });
 
 mongoose
-  .connect(
-    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.zslhg.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
-  )
+    .connect(
+        'mongodb+srv://dusan:bvaeXr0FSIQ7sN69@cluster0.zslhg.mongodb.net/moviesWL?retryWrites=true&w=majority'
+    )
   .then(() => app.listen(process.env.PORT || 5000))
   .catch((err) => {
     console.log(err);
